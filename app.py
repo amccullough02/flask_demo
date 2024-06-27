@@ -16,5 +16,13 @@ def add():
     todo_list.append({"task": todo, "done": False})
     return redirect(url_for("index"))
 
+def edit(index):
+    todo = todo_list[index]
+    if request.method == 'POST':
+        todo['task'] = request.form("todo")
+        return redirect(url_for("index"))
+    else:
+        return render_template("edit.html", todo=todo, index=index)
+
 if __name__ == '__main__':
     app.run(debug=True)
