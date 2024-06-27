@@ -8,8 +8,6 @@ todo_list = [{"task": "Get Revenge on Jason", "done": False}]
 def index():
     return render_template("index.html", todos=todo_list)
 
-# Add CRUD methods and a check method to mark item as done.
-
 @app.route("/add", methods=["POST"])
 def add():
     todo = request.form['todo']
@@ -24,6 +22,16 @@ def edit(index):
         return redirect(url_for("index"))
     else:
         return render_template("edit.html", todo=todo, index=index)
+
+@app.route("/check/<int:index>")    
+def check(index):
+    todo_list[index]['done'] = not todo_list[index]['done']
+    return redirect(url_for("index"))
+
+@app.route("/delete/<int:index>")
+def delete(index):
+    del todo_list[index]
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run(debug=True)
