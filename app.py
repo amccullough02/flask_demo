@@ -4,18 +4,19 @@ app = Flask(__name__, template_folder="templates")
 
 todo_list = [{"task": "Get Revenge on Jason", "done": False}]
 
-@app.route('/')
+@app.route("/")
 def index():
     return render_template("index.html", todos=todo_list)
 
 # Add CRUD methods and a check method to mark item as done.
 
-@app.route('/add', methods=["POST"])
+@app.route("/add", methods=["POST"])
 def add():
     todo = request.form['todo']
     todo_list.append({"task": todo, "done": False})
     return redirect(url_for("index"))
 
+@app.route("/edit/<int:index>", methods=["GET", "POST"])
 def edit(index):
     todo = todo_list[index]
     if request.method == 'POST':
